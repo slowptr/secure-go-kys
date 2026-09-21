@@ -14,6 +14,14 @@ public class Mod implements IXposedHookLoadPackage {
     public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam lpparam) {
         if (!TARGET_PACKAGE.equals(lpparam.packageName)) return;
 
+        hook("MainActivity.exitApp", new HookAction() {
+            @Override
+            public void run() {
+                XposedHelpers.findAndHookMethod("de.fiduciagad.securego.MainActivity",
+                    lpparam.classLoader, "exitApp", returnNull());
+            }
+        });
+
         hook("zvp.aj.b", new HookAction() {
             @Override
             public void run() {
