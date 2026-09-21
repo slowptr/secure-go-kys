@@ -14,6 +14,14 @@ public class Mod implements IXposedHookLoadPackage {
     public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam lpparam) {
         if (!TARGET_PACKAGE.equals(lpparam.packageName)) return;
 
+        hook("vt8.a", new HookAction() {
+            @Override
+            public void run() {
+                XposedHelpers.findAndHookMethod("vt8", lpparam.classLoader, "a",
+                    String.class, returnNull());
+            }
+        });
+
         hook("MainActivity.exitApp", new HookAction() {
             @Override
             public void run() {
