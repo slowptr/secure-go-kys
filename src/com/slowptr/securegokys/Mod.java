@@ -14,6 +14,15 @@ public class Mod implements IXposedHookLoadPackage {
     public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam lpparam) {
         if (!TARGET_PACKAGE.equals(lpparam.packageName)) return;
 
+        hook("zvp.ag.a(Application)", new HookAction() {
+            @Override
+            public void run() throws Throwable {
+                Class<?> applicationClass = Class.forName("zvp.ae", false, lpparam.classLoader);
+                XposedHelpers.findAndHookMethod("zvp.ag", lpparam.classLoader, "a",
+                    applicationClass, returnNull());
+            }
+        });
+
         hook("vt8.a", new HookAction() {
             @Override
             public void run() {
