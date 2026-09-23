@@ -23,6 +23,15 @@ public class Mod implements IXposedHookLoadPackage {
             }
         });
 
+        hook("zvp.k.a(Context, callback)", new HookAction() {
+            @Override
+            public void run() throws Throwable {
+                Class<?> callbackClass = Class.forName("zvp.s", false, lpparam.classLoader);
+                XposedHelpers.findAndHookMethod("zvp.k", lpparam.classLoader, "a",
+                    android.content.Context.class, callbackClass, returnNull());
+            }
+        });
+
         hook("vt8.a", new HookAction() {
             @Override
             public void run() {
